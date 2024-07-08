@@ -1,0 +1,47 @@
+{
+  "name": "kanban_config",
+  "version": "1.0.0",
+  "description": "kanban app main configuration",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npm run build",
+    "build": "echo \"No build necessary for Node.js application\"",
+    "prod": "NODE_ENV=production npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pertinaz/kanban.git"
+  },
+  "author": "pertinaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pertinaz/kanban/issues"
+  },
+  "homepage": "https://github.com/pertinaz/kanban#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.44.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.10",
+    "cookie-parser": "^1.4.6",
+    "express-validator": "^7.1.0",
+    "nodemon": "^3.1.4",
+    "pg": "^8.12.0",
+    "psql": "^0.0.1",
+    "supabase": "^1.178.2",
+    "swagger": "^0.7.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "typescript": "^5.5.3"
+  }
+}

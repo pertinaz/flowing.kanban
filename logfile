@@ -1,0 +1,30 @@
+2024-07-07 21:03:21.886 -05 [10372] LOG:  iniciando PostgreSQL 16.3, compiled by Visual C++ build 1939, 64-bit
+2024-07-07 21:03:21.894 -05 [10372] LOG:  escuchando en la dirección IPv6 «::1», port 5432
+2024-07-07 21:03:21.895 -05 [10372] LOG:  escuchando en la dirección IPv4 «127.0.0.1», port 5432
+2024-07-07 21:03:22.016 -05 [9168] LOG:  el sistema de bases de datos fue apagado en 2024-07-07 20:57:38 -05
+2024-07-07 21:03:22.048 -05 [10372] LOG:  el sistema de bases de datos está listo para aceptar conexiones
+2024-07-07 21:08:21.998 -05 [12340] LOG:  empezando checkpoint: time
+2024-07-07 21:08:25.988 -05 [12340] LOG:  checkpoint complete: wrote 39 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=3.969 s, sync=0.012 s, total=3.993 s; sync files=11, longest=0.004 s, average=0.002 s; distance=205 kB, estimate=205 kB; lsn=0/15A0CE0, redo lsn=0/15A0CA8
+2024-07-07 21:14:14.076 -05 [9824] FATAL:  no existe el rol «postgres»
+2024-07-07 21:16:12.739 -05 [13244] FATAL:  no existe el rol «Czsgt»
+2024-07-07 21:16:23.786 -05 [7812] FATAL:  no existe el rol «pertinaz»
+2024-07-07 21:16:52.000 -05 [13908] FATAL:  no existe el rol «admin»
+2024-07-07 21:16:55.037 -05 [13108] FATAL:  no existe el rol «administrador»
+2024-07-07 21:19:23.617 -05 [6744] FATAL:  no existe el rol «Czsgt»
+2024-07-07 21:19:44.266 -05 [5328] FATAL:  no existe la base de datos «Czsgt_»
+2024-07-07 21:24:18.169 -05 [12652] FATAL:  no existe el rol «czgt_»
+2024-07-07 21:24:28.044 -05 [8788] FATAL:  no existe el rol «pertinaz»
+2024-07-07 21:24:43.005 -05 [7712] FATAL:  no existe el rol «postgres»
+2024-07-07 21:26:02.006 -05 [12732] FATAL:  no existe el rol «pertinaz»
+2024-07-07 21:26:14.907 -05 [8932] FATAL:  no existe el rol «czsgt_»
+2024-07-07 21:26:19.951 -05 [5600] FATAL:  no existe el rol «juan»
+2024-07-07 21:28:37.628 -05 [3964] FATAL:  no existe la base de datos «Czsgt_»
+2024-07-07 21:29:50.635 -05 [14036] FATAL:  no existe el rol «czsgt_»
+2024-07-07 21:30:00.594 -05 [2092] FATAL:  no existe el rol «pertinaz»
+2024-07-07 21:30:03.789 -05 [8616] FATAL:  no existe el rol «admin»
+2024-07-07 21:30:07.182 -05 [11196] FATAL:  no existe el rol «administrador»
+2024-07-08 02:48:07.873 -05 [2100] FATAL:  no existe el rol «postgres»
+2024-07-08 02:51:19.752 -05 [10372] LOG:  proceso ayudante «logical replication launcher» (PID 3896) fue terminado por una excepción 0xC000013A
+2024-07-08 02:51:19.752 -05 [10372] HINT:  Vea el archivo «ntstatus.h» para una descripción del valor hexadecimal.
+2024-07-08 02:51:19.753 -05 [10372] LOG:  terminando todos los otros procesos de servidor activos
+^C
