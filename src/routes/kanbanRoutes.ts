@@ -3,13 +3,13 @@ import {
   createCard,
   updateCard,
   deleteCard,
-} from "../controllers/cardsController.js";
+} from "../controllers/cardsController";
 import {
   createColumn,
   updateColumn,
   deleteColumn,
   getCardsByColumn,
-} from "../controllers/columnsController.js";
+} from "../controllers/columnsController";
 import verifyToken from "../middlewares/tokenValidation.js";
 
 const dashboardRouter = express.Router();

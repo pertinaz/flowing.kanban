@@ -1,10 +1,11 @@
-import Card from "../models/card.js";
+// import Card from "../models/card.js";
 import { pool } from "../utils/dbConfig.js";
+import { Request, Response } from "express";
 
 // create new card
-export const createCard = async (req, res) => {
+export const createCard = async (req: Request, res: Response) => {
   const { title, description, columnId } = req.body;
-  const userId = req.user.id;
+  const userId = (req as any).user.id;
 
   try {
     const newCard = await pool.query(
@@ -12,13 +13,13 @@ export const createCard = async (req, res) => {
       [title, description, columnId, userId]
     );
     res.status(201).json(newCard.rows[0]);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
 };
 
 // edit/ update card
-export const updateCard = async (req, res) => {
+export const updateCard = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { title, description, columnId } = req.body;
 
@@ -28,19 +29,19 @@ export const updateCard = async (req, res) => {
       [title, description, columnId, id]
     );
     res.status(200).json(updateCard.rows[0]);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
 };
 
 // delete card
-export const deleteCard = async (req, res) => {
+export const deleteCard = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
     await pool.query("DELETE FROM cards WHERE id = $1", [id]);
     res.status(204).json({ message: "Card deleted successfully" });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
 };
