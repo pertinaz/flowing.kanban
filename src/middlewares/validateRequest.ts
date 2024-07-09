@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 
-const validateRequest = (req, res, next) => {
+const validateRequest = (req: any, res: any, next: any) => {
   const errors = validationResult(req);
 
   // return status code 400 and the errors
