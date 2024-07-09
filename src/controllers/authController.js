@@ -1,4 +1,3 @@
-
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import { pool } from "../utils/dbConfig.js";
@@ -60,7 +59,7 @@ export const register = async (req, res) => {
 };
 
 export const getProfile = async (req, res) => {
-  const { id } = req.user;
+  const { id } = req.User;
 
   try {
     const user = await pool.query("SELECT * FROM users WHERE id = $1", [id]); // search the existence of the user by password
