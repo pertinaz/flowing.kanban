@@ -29,7 +29,6 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-
 const app = express(); // initializes express instance
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // setup Swagger UI
