@@ -37,7 +37,7 @@ export const registerAdmin = async (
     // create the new admin user and save it in the JWT token
     const newAdmin = await pool.query(
       "INSERT INTO admin (username, email, password, role) VALUES ($1, $2, $3, $4) RETURNING *",
-      [username, email, password, "admin"]
+      [username, email, hashedPassword, role]
     );
     const token = createToken(newAdmin.rows[0].id);
     res.status(201).json({ admin: newAdmin.rows[0], token });
