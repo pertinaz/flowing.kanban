@@ -129,7 +129,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       res.status(404).json({ message: "Invalid credentials" });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, (user as any).password);
     if (!isMatch) {
       res.status(404).json({ message: "Invalid credentials" });
     }
@@ -138,10 +138,14 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     // create a cookie and storage the JWT refresh token
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "None",
     });
     res.status(200).json({ user: user.rows[0], token });
   } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
+};
+
+export const logout = (_req: Request, res: Response) => {
+  res.cookie("token", "", { maxAge: 1 }); // delete the token
+  res.status(200).json({ message: "Logged out successfully" });
 };
