@@ -83,41 +83,6 @@ export const registerUser = async (
   }
 };
 
-// get the user/admin profile
-export const getProfile = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  const { id }: { id: number } = (req as any).user; // asertion for the user existence
-  try {
-    const user = await pool.query("SELECT * FROM users WHERE id = $1", [id]); // search the existence of the user by password
-    if (!user) {
-      res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json({ user }); // if coincidence found show the user information as a json object.
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
-// change information from the admin/user profile
-export const updateProfile = async (req: Request, res: Response) => {
-  const { username, email } = req.body;
-
-  try {
-    await pool.query(
-      "INSERT users SET username = $1, email = $2 WHERE id = $3",
-      [username, email, (req as any).user.id]
-    );
-    const updatedUser = await pool.query("SELECT * FROM users WHERE id = $1", [
-      (req as any).user.id,
-    ]);
-    res.status(200).json({ message: updatedUser });
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
 //login to the web API
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password }: { email: string; password: string } = req.body;
