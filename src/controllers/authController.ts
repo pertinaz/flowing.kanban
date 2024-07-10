@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import User from "../models/user";
-import { pool } from "../utils/dbConfig";
+import pool from "../utils/dbConfig";
 import { Request, Response } from "express";
 import {
   checkExistence,

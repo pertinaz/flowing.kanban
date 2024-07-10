@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { pool } from "../utils/dbConfig";
+import pool from "../utils/dbConfig";
 
 class User {
   id: number | undefined;
@@ -8,7 +8,7 @@ class User {
   password: string | undefined;
   role: string | undefined;
   static id: any;
-  
+
   static async comparePassword(password: string, hashedPassword: string) {
     return bcrypt.compare(password, hashedPassword);
   }

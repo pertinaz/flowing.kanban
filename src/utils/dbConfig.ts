@@ -1,38 +1,34 @@
-import pkg from "pg";
-const { Pool } = pkg;
 import dotenv from "dotenv";
+import { Pool } from "pg";
 
 dotenv.config();
 
-import { createClient } from "@supabase/supabase-js";
+const { DB_USER, DB_HOST, DB_NAME, DB_PASS, DB_PORT } = process.env;
 
-const supabaseUrl = "https://hzfybgmswzirxvuhbopz.supabase.co";
-const supabaseKey: string | undefined = process.env.SUPABASE_KEY;
-if (supabaseKey !== undefined) {
-  const supabase = createClient(supabaseUrl, supabaseKey);
-} else {
-  console.error(
-    "No se ha definido la llave de supabase en las variables de entorno"
-  );
+if (!DB_USER || !DB_HOST || !DB_NAME || !DB_PASS || !DB_PORT) {
+  throw Error("Database configutarion missing");
 }
-
-const port: number | undefined =
-  process.env.PORT !== undefined ? parseInt(process.env.PORT, 10) : undefined;
 //config the database connection
-export const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASS,
-  port,
+const pool = new Pool({
+  user: DB_USER,
+  host: DB_HOST,
+  database: DB_NAME,
+  password: DB_PASS,
+  port: DB_PORT ? parseInt(DB_PORT) : 5432,
+  ssl: {
+    rejectUnauthorized: false, // Required to connect the database
+  },
 });
 
 //connect to the database
-export const connectDB = async () => {
+export const connectDB = async (): Promise<void> => {
   try {
     await pool.connect();
     console.log("Connected to database successfully");
   } catch (err) {
     console.log("Unableto connect to database", err);
+    process.exit(1);
   }
 };
+
+export default pool;
