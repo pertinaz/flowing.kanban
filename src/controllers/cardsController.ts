@@ -7,6 +7,17 @@ interface CustomRequest extends Request {
   user?: { id: string };
 }
 
+// GET all the cards created
+export const cards = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const allCards = await pool.query("SELECT * FROM cards");
+    sendResponse(res, 200, "All cards", allCards.rows);
+  } catch (error) {
+    sendResponse(res, 500, (error as CustomError).message);
+    next(error);
+  }
+};
+
 // create new card
 export const createCard = async (
   req: CustomRequest,

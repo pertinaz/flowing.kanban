@@ -1,7 +1,7 @@
 {
-  "name": "kanban_config",
+  "name": "kanban_api_rest",
   "version": "1.0.0",
-  "description": "kanban app main configuration",
+  "description": "kanban API REST dev usign express, typescript",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -10,19 +10,19 @@
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prestart": "npm run build",
-    "build": "echo \"No build necessary for Node.js application\"",
+    "build": "tsc",
     "prod": "NODE_ENV=production npm start"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pertinaz/kanban.git"
+    "url": "git+https://github.com/pertinaz/flowing.kanban.git"
   },
   "author": "pertinaz",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pertinaz/kanban/issues"
+    "url": "https://github.com/pertinaz/flowing.kanban/issues"
   },
-  "homepage": "https://github.com/pertinaz/kanban#readme",
+  "homepage": "https://github.com/pertinaz/flowing.kanban#readme",
   "dependencies": {
     "@vercel/postgres": "^0.9.0",
     "dotenv": "^16.4.5"

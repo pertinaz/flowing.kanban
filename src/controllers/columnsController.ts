@@ -7,6 +7,17 @@ export interface CustomRequest extends Request {
   user?: { id: string };
 }
 
+// GET all the columns created in the user account
+export const columns = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const allColumns = await pool.query("SELECT * FROM columns");
+    sendResponse(res, 200, "All columns created", allColumns.rows);
+  } catch (error) {
+    sendResponse(res, 500, (error as CustomError).message);
+    next(error);
+  }
+};
+
 // create column
 export const createColumn = async (req: CustomRequest, res: Response) => {
   const { name } = req.body;
@@ -58,7 +69,6 @@ export const deleteColumn = async (req: Request, res: Response) => {
     next(error);
   }
 };
-
 
 // get the cards linked to the specified column
 export const getCardsByColumn = async (req: CustomRequest, res: Response) => {

@@ -20,10 +20,11 @@ export const getProfile = async (
   try {
     const user = await pool.query("SELECT * FROM users WHERE id = $1", [id]); // search the existence of the user by id
     if (!user) {
-      res.status(404).json({ message: "User not found" });
       sendResponse(res, 404, "User not found");
+      return; // user not registered
     }
-    sendResponse(res, 200, user.rows[0]); // if coincidence found show the user information as a json object.
+    sendResponse(res, 200, user.rows[0]);
+    return; // if coincidence found show the user information as a json object.
   } catch (error) {
     sendResponse(res, 500, (error as CustomError).message);
   }
