@@ -22,6 +22,7 @@ if (
 }
 //config the database connection
 const pool = new Pool({
+  connectionString: POSTGRES_URL,
   user: POSTGRES_USER,
   host: POSTGRES_HOST,
   database: POSTGRES_DATABASE,
