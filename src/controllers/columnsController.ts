@@ -1,10 +1,10 @@
-//import Column from "../models/column.js";
+// import Column from "../models/column.js";
 import pool from "../utils/dbConfig.js";
 import { Request, Response } from "express";
 import { CustomError, sendResponse } from "../middlewares/errorHandler";
 
-interface CustomRequest extends Request {
-  user: { id: string };
+export interface CustomRequest extends Request {
+  user?: { id: string };
 }
 
 // create column
@@ -46,7 +46,7 @@ export const updateColumn = async (req: CustomRequest, res: Response) => {
   }
 };
 
-// delete card
+// delete column
 export const deleteColumn = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -59,6 +59,8 @@ export const deleteColumn = async (req: Request, res: Response) => {
   }
 };
 
+
+// get the cards linked to the specified column
 export const getCardsByColumn = async (req: CustomRequest, res: Response) => {
   const { columnId } = req.params;
 

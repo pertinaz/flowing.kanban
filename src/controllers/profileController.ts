@@ -6,7 +6,7 @@ import { CustomError, sendResponse } from "../middlewares/errorHandler";
 dotenv.config();
 
 interface CustomRequest extends Request {
-  user: {
+  user?: {
     id: string;
     username: string;
   };

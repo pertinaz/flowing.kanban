@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import {
   createCard,
   updateCard,
@@ -10,9 +10,9 @@ import {
   deleteColumn,
   getCardsByColumn,
 } from "../controllers/columnsController";
-import verifyToken from "../middlewares/authentication.js";
+import verifyToken from "../middlewares/authentication";
 
-const dashboardRouter = express.Router();
+const dashboardRouter = Router();
 
 dashboardRouter.post("/cards", verifyToken, createCard);
 dashboardRouter.put("/cards/:id", verifyToken, updateCard);
@@ -21,6 +21,6 @@ dashboardRouter.delete("/cards/:id", verifyToken, deleteCard);
 dashboardRouter.post("/columns", verifyToken, createColumn);
 dashboardRouter.put("/columns/:id", verifyToken, updateColumn);
 dashboardRouter.delete("/columns/:id", verifyToken, deleteColumn);
-dashboardRouter.get("/columns/columnId/cards", verifyToken, getCardsByColumn);
+dashboardRouter.get("/columns/:columnId/cards", verifyToken, getCardsByColumn);
 
 export default dashboardRouter;

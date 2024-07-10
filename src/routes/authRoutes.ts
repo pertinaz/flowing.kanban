@@ -16,11 +16,9 @@ authRouter.get("/", (_req: Request, res: Response) => {
 });
 
 authRouter.post("/register-admin", registerAdmin); // admin registration route
-
 authRouter.post("/register", registerUser); // user registration route
 
 authRouter.post("/login", login); // login route
-
 authRouter.post("/logout", verifyToken, logout); // logout route
 
 export default authRouter;

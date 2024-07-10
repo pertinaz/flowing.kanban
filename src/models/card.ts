@@ -1,17 +1,9 @@
 class Card {
-  constructor(
-    id: number,
-    title: string,
-    description: string,
-    columnId: string,
-    userId: string
-  ) {
-    id;
-    title;
-    description;
-    columnId;
-    userId;
-  }
+  id: number | undefined;
+  title: string | undefined;
+  description: string | undefined;
+  columnId: string | undefined;
+  userId: string | undefined;
 }
 
 export default Card;

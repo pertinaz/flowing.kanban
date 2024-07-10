@@ -1,9 +1,7 @@
 class Column {
-  constructor(id: number, name: string, userId: string) {
-    id;
-    name;
-    userId;
-  }
+  id: number | undefined;
+  name: string | undefined;
+  userId: string | undefined;
 }
 
 export default Column;
