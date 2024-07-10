@@ -1,16 +1,16 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import { connectDB } from "./src/utils/dbConfig.js";
+import { connectDB } from "./src/utils/dbConfig";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 
-import authRouter from "./src/routes/authRoutes.js";
-import dashboardRouter from "./src/routes/kanbanRoutes.js";
-import profileRouter from "./src/routes/profileRoute.js";
+import authRouter from "./src/routes/authRoutes";
+import dashboardRouter from "./src/routes/kanbanRoutes";
+import profileRouter from "./src/routes/profileRoute";
 
-import errorHandler from "./src/middlewares/errorHandler.js";
+import errorHandler from "./src/middlewares/errorHandler";
 
 dotenv.config();
 
@@ -22,9 +22,9 @@ const swaggerOptions = {
       version: "1.0.0",
       description: "API for managing a Kanban board",
     },
-    servers: [{ url: "https://hzfybgmswzirxvuhbopz.supabase.co" }],
+    servers: [{ url: process.env.POSTGRES_URL }],
   },
-  apis: ["./src/routes/*.js"],
+  apis: ["./src/routes/*.ts"],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
@@ -40,8 +40,8 @@ connectDB(); // connects to database
 app.use(errorHandler);
 
 //rutes
-app.use("/api/auth", authRouter); // use the authorization route for the users
-app.use("/api/kanban", dashboardRouter); // use the authorization route for the dashboard
-app.use("/api/profile", profileRouter); // use the authorization route for the user profile
+app.use("/auth", authRouter); // use the authorization route for the users
+app.use("/dashboard", dashboardRouter); // use the authorization route for the dashboard
+app.use("/profile", profileRouter); // use the authorization route for the user profile
 
 export default app;
