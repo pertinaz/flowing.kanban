@@ -56,7 +56,7 @@ export const deleteCard = async (req: Request, res: Response) => {
 
   try {
     await pool.query("DELETE FROM cards WHERE id = $1", [id]);
-    sendResponse(res, 401, "Card deleted successfully");
+    sendResponse(res, 204, "Card deleted successfully");
   } catch (error) {
     sendResponse(res, 500, (error as CustomError).message);
     next(error);

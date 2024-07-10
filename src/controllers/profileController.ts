@@ -1,65 +1,58 @@
 import dotenv from "dotenv";
-import { pool } from "../utils/dbConfig";
+import pool from "../utils/dbConfig";
 import { Request, Response } from "express";
+import { CustomError, sendResponse } from "../middlewares/errorHandler";
 
 dotenv.config();
 
+interface CustomRequest extends Request {
+  user: {
+    id: string;
+    username: string;
+  };
+}
+
 export const getProfile = async (
-  req: Request,
+  req: CustomRequest,
   res: Response
 ): Promise<void> => {
-  const { id }: { id: number } = (req as any).user; // asertion for the user existence
+  const id = req.user?.id;
   try {
-    const user = await pool.query("SELECT * FROM users WHERE id = $1", [id]); // search the existence of the user by password
+    const user = await pool.query("SELECT * FROM users WHERE id = $1", [id]); // search the existence of the user by id
     if (!user) {
       res.status(404).json({ message: "User not found" });
+      sendResponse(res, 404, "User not found");
     }
-    res.status(200).json({ user }); // if coincidence found show the user information as a json object.
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
+    sendResponse(res, 200, user.rows[0]); // if coincidence found show the user information as a json object.
+  } catch (error) {
+    sendResponse(res, 500, (error as CustomError).message);
   }
 };
 
-/*
-export const updateUserProfile = async (req, res) => {
-  const { username } = req.body;
-  const userId = req.user.id;
-  try {
-    const result = await pool.query(
-      "UPDATE users SET username = $1 WHERE id = $2 RETURNING id, username, email", //check this one
-      [username, userId]
-    );
-    const user = result.rows[0];
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-*/
-export const updateProfile = async (req: Request, res: Response) => {
+export const updateProfile = async (req: CustomRequest, res: Response) => {
   const { username, email } = req.body;
 
   try {
     await pool.query(
       "INSERT users SET username = $1, email = $2 WHERE id = $3",
-      [username, email, (req as any).user.id]
+      [username, email, req.user?.id]
     );
     const updatedUser = await pool.query("SELECT * FROM users WHERE id = $1", [
-      (req as any).user.id,
+      req.user?.id,
     ]);
-    res.status(200).json({ message: updatedUser });
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
+    sendResponse(res, 200, updatedUser.rows[0]);
+  } catch (error) {
+    sendResponse(res, 500, (error as CustomError).message);
   }
 };
 
-export const deleteUserAccount = async (req: Request, res: Response) => {
-  const userId = (req as any).user.id;
+export const deleteUserAccount = async (req: CustomRequest, res: Response) => {
+  const userId = req.user?.id;
   try {
     await pool.query("DELETE FROM users WHERE id = $1", [userId]);
-    res.status(204).send();
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
+    sendResponse(res, 204, "Account deleted, be safe.");
+  } catch (error) {
+    sendResponse(res, 500, (error as CustomError).message);
   }
 };
 
