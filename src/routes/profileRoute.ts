@@ -5,7 +5,7 @@ import {
   updateProfile,
   deleteUserAccount,
 } from "../controllers/profileController";
-import verifyToken from "../middlewares/tokenValidation";
+import verifyToken from "../middlewares/authentication";
 import validateRequest from "../middlewares/validateRequest";
 
 const profileRouter = express.Router();

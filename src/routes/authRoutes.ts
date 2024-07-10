@@ -7,7 +7,7 @@ import {
   logout,
 } from "../controllers/authController";
 
-import verifyToken from "../middlewares/tokenValidation";
+import verifyToken from "../middlewares/authentication";
 
 const authRouter = Router();
 

@@ -8,23 +8,9 @@ import {
   passwordStrength,
   createToken,
 } from "../utils/userutils";
+import { CustomError, sendResponse } from "../middlewares/errorHandler";
 dotenv.config();
 
-// error type
-interface CustomError extends Error {
-  code?: number;
-  details: string;
-}
-
-// helper function for the response status
-const sendResponse = (
-  res: Response,
-  status: number,
-  message: string,
-  data: any = null
-) => {
-  res.status(status).json({ message, data });
-};
 
 // register a new admin
 export const registerAdmin = async (

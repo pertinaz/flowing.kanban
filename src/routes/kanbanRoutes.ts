@@ -10,7 +10,7 @@ import {
   deleteColumn,
   getCardsByColumn,
 } from "../controllers/columnsController";
-import verifyToken from "../middlewares/tokenValidation.js";
+import verifyToken from "../middlewares/authentication.js";
 
 const dashboardRouter = express.Router();
 

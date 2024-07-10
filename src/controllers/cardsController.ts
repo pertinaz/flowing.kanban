@@ -1,20 +1,35 @@
 // import Card from "../models/card.js";
-import { pool } from "../utils/dbConfig.js";
-import { Request, Response } from "express";
+import pool from "../utils/dbConfig.js";
+import { NextFunction, Request, Response } from "express";
+import { CustomError, sendResponse } from "../middlewares/errorHandler";
+
+interface CustomRequest extends Request {
+  user?: { id: string };
+}
 
 // create new card
-export const createCard = async (req: Request, res: Response) => {
+export const createCard = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   const { title, description, columnId } = req.body;
-  const userId = (req as any).user.id;
+  const userId = req.user?.id;
+
+  if (!userId) {
+    sendResponse(res, 401, "User not authenticated");
+    return;
+  }
 
   try {
     const newCard = await pool.query(
       "INSERT INTO cards (title,description,column_id,user_id) VALUES ($1,$2,$3,$4) RETURNING *",
       [title, description, columnId, userId]
     );
-    res.status(201).json(newCard.rows[0]);
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
+    sendResponse(res, 201, "Card created successfully", newCard.rows[0]);
+  } catch (error) {
+    sendResponse(res, 500, (error as CustomError).message);
+    next(error);
   }
 };
 
@@ -24,13 +39,14 @@ export const updateCard = async (req: Request, res: Response) => {
   const { title, description, columnId } = req.body;
 
   try {
-    const updateCard = await pool.query(
+    const updatedCard = await pool.query(
       "UPDATE cards SET title = $1, description = $2, columnId = $3 WHERE id = $4 RETURNING *",
       [title, description, columnId, id]
     );
-    res.status(200).json(updateCard.rows[0]);
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
+    sendResponse(res, 200, "Card updated successfully", updatedCard.rows[0]);
+  } catch (error) {
+    sendResponse(res, 500, (error as CustomError).message);
+    next(error);
   }
 };
 
@@ -40,8 +56,13 @@ export const deleteCard = async (req: Request, res: Response) => {
 
   try {
     await pool.query("DELETE FROM cards WHERE id = $1", [id]);
-    res.status(204).json({ message: "Card deleted successfully" });
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
+    sendResponse(res, 401, "Card deleted successfully");
+  } catch (error) {
+    sendResponse(res, 500, (error as CustomError).message);
+    next(error);
   }
 };
+
+function next(_error: unknown) {
+  throw new Error("Function not implemented.");
+}

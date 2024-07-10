@@ -1,6 +1,5 @@
-import { pool } from "./dbConfig";
+import pool from "./dbConfig";
 import jwt from "jsonwebtoken";
-import User from "../models/user";
 
 export async function checkExistence(
   email: string,
@@ -36,8 +35,8 @@ const token: string = process.env.JWT_SECRET || "no token";
 if (!token) {
   throw new Error("Missing JWT secret"); // throw an error if JWT secret is not defined in the environment variables.
 }
-export function createToken(_id: string): string {
-  return jwt.sign({ id: User.id }, token, {
+export function createToken(userId: string): string {
+  return jwt.sign({ id: userId }, token, {
     expiresIn: "2d",
   }); // create JWT token
 }
