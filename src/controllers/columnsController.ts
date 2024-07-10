@@ -1,5 +1,5 @@
 // import Column from "../models/column.js";
-import pool from "../utils/dbConfig.js";
+import pool from "../utils/dbConfig";
 import { Request, Response } from "express";
 import { CustomError, sendResponse } from "../middlewares/errorHandler";
 

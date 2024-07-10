@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import { sendResponse } from "../middlewares/errorHandler";
+import { sendResponse } from "./errorHandler";
 
 interface CustomRequest extends Request {
   user?: string | JwtPayload;

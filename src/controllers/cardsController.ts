@@ -1,5 +1,5 @@
 // import Card from "../models/card.js";
-import pool from "../utils/dbConfig.js";
+import pool from "../utils/dbConfig";
 import { NextFunction, Request, Response } from "express";
 import { CustomError, sendResponse } from "../middlewares/errorHandler";
 
