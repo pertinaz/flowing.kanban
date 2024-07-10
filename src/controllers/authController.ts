@@ -11,7 +11,6 @@ import {
 import { CustomError, sendResponse } from "../middlewares/errorHandler";
 dotenv.config();
 
-
 // register a new admin
 export const registerAdmin = async (
   req: Request,
