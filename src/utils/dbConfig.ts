@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-import { Pool } from "pg";
+import pkg from "pg";
+const { Pool } = pkg;
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ if (
   !POSTGRES_PASSWORD ||
   !POSTGRES_DATABASE
 ) {
-  throw Error("Database configutarion missing");
+  throw new Error("Database configuration missing or incorrect.");
 }
 //config the database connection
 const pool = new Pool({
