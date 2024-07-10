@@ -3,18 +3,29 @@ import { Pool } from "pg";
 
 dotenv.config();
 
-const { DB_USER, DB_HOST, DB_NAME, DB_PASS, DB_PORT } = process.env;
+const {
+  POSTGRES_URL,
+  POSTGRES_USER,
+  POSTGRES_HOST,
+  POSTGRES_PASSWORD,
+  POSTGRES_DATABASE,
+} = process.env;
 
-if (!DB_USER || !DB_HOST || !DB_NAME || !DB_PASS || !DB_PORT) {
+if (
+  !POSTGRES_URL ||
+  !POSTGRES_USER ||
+  !POSTGRES_HOST ||
+  !POSTGRES_PASSWORD ||
+  !POSTGRES_DATABASE
+) {
   throw Error("Database configutarion missing");
 }
 //config the database connection
 const pool = new Pool({
-  user: DB_USER,
-  host: DB_HOST,
-  database: DB_NAME,
-  password: DB_PASS,
-  port: DB_PORT ? parseInt(DB_PORT) : 5432,
+  user: POSTGRES_USER,
+  host: POSTGRES_HOST,
+  database: POSTGRES_DATABASE,
+  password: POSTGRES_PASSWORD,
   ssl: {
     rejectUnauthorized: false, // Required to connect the database
   },

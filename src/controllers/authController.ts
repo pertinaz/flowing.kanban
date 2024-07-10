@@ -16,6 +16,16 @@ interface CustomError extends Error {
   details: string;
 }
 
+// helper function for the response status
+const sendResponse = (
+  res: Response,
+  status: number,
+  message: string,
+  data: any = null
+) => {
+  res.status(status).json({ message, data });
+};
+
 // register a new admin
 export const registerAdmin = async (
   req: Request,
@@ -49,10 +59,12 @@ export const registerAdmin = async (
       [username, email, hashedPassword, role]
     );
     const token = createToken(newAdmin.rows[0].id);
-    res.status(201).json({ admin: newAdmin.rows[0], token });
+    sendResponse(res, 201, "Admin registered successfully", {
+      admin: newAdmin.rows[0],
+      token,
+    });
   } catch (error) {
-    const customError = error as CustomError;
-    res.status(500).json({ message: customError.message });
+    sendResponse(res, 500, (error as CustomError).message);
   }
 };
 
@@ -87,10 +99,12 @@ export const registerUser = async (
       [username, email, hashedPassword]
     );
     const token = createToken(newUser.rows[0].id);
-    res.status(201).json({ admin: newUser.rows[0], token });
+    sendResponse(res, 201, "User registered successfully", {
+      user: newUser.rows[0],
+      token,
+    });
   } catch (error) {
-    const customError = error as CustomError;
-    res.status(500).json({ message: customError.message });
+    sendResponse(res, 500, (error as CustomError).message);
   }
 };
 
@@ -100,13 +114,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findByEmail(email);
     if (!user) {
-      res.status(404).json({ message: "Invalid credentials" });
+      sendResponse(res, 404, "Invalid credentials");
       return;
     }
 
     const isMatch = await User.comparePassword(password, user.password);
     if (!isMatch) {
-      res.status(404).json({ message: "Invalid credentials" });
+      sendResponse(res, 404, "Invalid credentials");
       return;
     }
 
@@ -115,14 +129,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res.cookie("token", token, {
       httpOnly: true,
     });
-    res.status(200).json({ user: user.rows[0], token });
+    sendResponse(res, 200, "Login successful", { user: user.rows[0], token });
   } catch (error) {
-    const customError = error as CustomError;
-    res.status(500).json({ message: customError.message });
+    sendResponse(res, 500, (error as CustomError).message);
   }
 };
 
 export const logout = (_req: Request, res: Response) => {
   res.cookie("token", "", { maxAge: 1 }); // delete the token
-  res.status(200).json({ message: "Logged out successfully" });
+  sendResponse(res, 200, "Logged out successfully");
 };
