@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import User from "../models/user";
 import { pool } from "../utils/dbConfig";
 import { Request, Response } from "express";
 import {
@@ -8,6 +9,12 @@ import {
   createToken,
 } from "../utils/userutils";
 dotenv.config();
+
+// error type
+interface CustomError extends Error {
+  code?: number;
+  details: string;
+}
 
 // register a new admin
 export const registerAdmin = async (
@@ -18,7 +25,7 @@ export const registerAdmin = async (
     username,
     email,
     password,
-    role,
+    role = "admin",
   }: {
     username: string;
     email: string;
@@ -31,6 +38,7 @@ export const registerAdmin = async (
     // validate the password (can create a component for this one)
     if (!passwordStrength(password)) {
       res.status(400).json({ message: "Password is not strong enough" });
+      return;
     }
 
     const hashedPassword = await bcrypt.hash(password, 10); // has the password -> in the user model:
@@ -42,8 +50,9 @@ export const registerAdmin = async (
     );
     const token = createToken(newAdmin.rows[0].id);
     res.status(201).json({ admin: newAdmin.rows[0], token });
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {
+    const customError = error as CustomError;
+    res.status(500).json({ message: customError.message });
   }
 };
 
@@ -67,6 +76,7 @@ export const registerUser = async (
     // validate the password (can create a component for this one)
     if (!passwordStrength(password)) {
       res.status(400).json({ message: "Password is not strong enough" });
+      return;
     }
 
     const hashedPassword = await bcrypt.hash(password, 10); // has the password -> in the user model:
@@ -78,8 +88,9 @@ export const registerUser = async (
     );
     const token = createToken(newUser.rows[0].id);
     res.status(201).json({ admin: newUser.rows[0], token });
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {
+    const customError = error as CustomError;
+    res.status(500).json({ message: customError.message });
   }
 };
 
@@ -87,16 +98,16 @@ export const registerUser = async (
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password }: { email: string; password: string } = req.body;
   try {
-    const user = await pool.query("SELECT * FROM users WHERE email = $1", [
-      email,
-    ]);
-    if (user.rows.length === 0) {
+    const user = await User.findByEmail(email);
+    if (!user) {
       res.status(404).json({ message: "Invalid credentials" });
+      return;
     }
 
-    const isMatch = await bcrypt.compare(password, (user as any).password);
+    const isMatch = await User.comparePassword(password, user.password);
     if (!isMatch) {
       res.status(404).json({ message: "Invalid credentials" });
+      return;
     }
 
     const token = createToken(user.rows[0].id);
@@ -105,8 +116,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       httpOnly: true,
     });
     res.status(200).json({ user: user.rows[0], token });
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    const customError = error as CustomError;
+    res.status(500).json({ message: customError.message });
   }
 };
 
